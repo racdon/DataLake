@@ -1,0 +1,4 @@
+eid=int
+name=String
+salary=String
+destination=String

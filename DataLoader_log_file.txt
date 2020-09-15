@@ -1,0 +1,36 @@
+INFO:root:-------------------- Execution Process Started -----------------------------
+INFO:root:Calling mysqlconnection.py
+INFO:root:Establishing Database Connection For Fetching rows information
+INFO:root:Information retrieve Successfully....
+INFO:root:Calling mysqlconnection.py for updating run_sts from 'SUBMITTED' to 'RUNNING'
+INFO:root:run_sts Updated To RUNNING successfully.
+INFO:root:Calling mysqlconnection.py Again For Retriving structure Of The table
+INFO:root:Information required for table creation retrieved Successfully....
+INFO:root:Hive DDl Needs to be created since the flag is Y.
+INFO:root:Checking for the existence Of Database.
+INFO:root:Starting to run unix command hive --hiveconf dbName=training -f db_exists.hql
+INFO:root:Database Exists.
+INFO:root:Starting to run unix command hive --hiveconf dbName=training --hiveconf tblname=emp -f tbl_exists.hql
+INFO:root:Table Already Present.
+INFO:root:Table Droped Successfully.
+INFO:root:Starting to run unix command hive --hiveconf database=training --hiveconf table=emp --hiveconf col_attr_syntax="emp_id int,emp_name string,age int" --hiveconf creation_type=EXTERNAL -f create_table.hql
+INFO:root:Table Creation Failed.
+INFO:root:Hive DDl Creation took Place Successfully.Change status of hive_dll to N in metdata_dt_table
+INFO:root:Status of hive_dll is updated to N in metdata_dt_table
+INFO:root:Starting To Prepare Sqoop Command: 
+INFO:root:Started checking Destination Path Existance: 
+INFO:root:Starting to run unix command hadoop fs -ls /user/training/test_proj/emp
+INFO:root:Destination File Exists as hadoop fs -ls /user/training/test_proj/emp
+INFO:root:Deleting Destination Files
+INFO:root:Starting to run unix command hadoop fs -rmr /user/training/test_proj/emp
+INFO:root:Sqoop Command Preparation Started
+INFO:root:Sqoop Command Preparation completed
+INFO:root:Starting to run unix command sqoop import --connect jdbc:mysql://localhost/training --username=training --password=training --table=emp --as-textfile -m 1 --target-dir=/user/training/test_proj/emp
+INFO:root:Sqoop Command Excecution completed SuccessFully For table: emp
+INFO:root:Starting To prepare Hive Load Command.
+INFO:root:Starting to run unix command hive --hiveconf database=training --hiveconf table=emp --hiveconf hdfs_loc=/user/training/test_proj/emp/part-m-00000 -f load_data_hdfs.hql
+INFO:root:Data Loaded To Hive Table Successfully.
+INFO:root:Data Loaded Successfully To Hive Table.
+INFO:root:Calling mysqlconnection.py for updating run_sts from 'RUNNING' to 'COMPLETED'
+INFO:root:run_sts Updated To COMPLETED successfully.
+INFO:root:---------------------------------- Execution Process Ended -----------------------------
